@@ -3,11 +3,16 @@
 
 
 using namespace std;
-int random( int div)
-{
-	return rand() % (div + 1);
-}
 
+unsigned short lfsr = 0xACE1u;
+unsigned bit;
+
+
+unsigned random(int size_1, int size_2)
+{
+		bit = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5)) & 1;
+		return (lfsr = (lfsr >> 1) | (bit << 15)) % (size_1 - size_2 + 1) + size_1;
+}
 
 int main()
 {
@@ -141,23 +146,38 @@ int main()
 		{
 			srand(time(NULL));
 			cout << "Введите промежуток" << endl;
-			int number_5[100],size,i_5,amount,j_5 ;
-			cin >> size;
+			int number_5[100],size_1, size_2,i_5,amount,j_5 ;
+			cout << "От" << endl;
+			cin >> size_1;
+			cout << "До" << endl;
+			cin >> size_2;
 			cout << "Введите количество чисел" << endl;
 			cin >> amount;
 			cout << "Числа равны:" << endl;
 			for (i_5 = 0;i_5 < amount;i_5++)
 			{
-				number_5[i_5] = random(size);
+				number_5[i_5] = random(size_1, size_2);
 				cout << number_5[i_5] <<endl;
 			}
+			int max;
+			for (i_5 = 0;i_5 < amount;i_5++)
+			{
+				max = (number_5[i_5] > number_5[i_5 + 1]) ? number_5[i_5] : number_5[i_5 + 1];
+			}
 			cout << "График:" << endl;
-			for (i_5 = 1;i_5 <= size;i_5++)
+			for (i_5 = size_1;i_5 <= size_2;i_5++)
 			{
 				cout << i_5 <<". ";
 				for (j_5 = 0;j_5 < amount;j_5++)
 				{
-					if (i_5 == number_5[j_5])cout << "*";
+					if (i_5 == number_5[j_5])
+					{
+						cout << "*";
+					}
+					else
+					{
+						cout << "  ";
+					}
 				}
 				cout << endl;
 			}
