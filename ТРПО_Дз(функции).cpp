@@ -133,11 +133,31 @@ void changeNumToString(int integer)
 void changeNumToString(double number)
 { 
 	string str;
-	ostringstream stream;
-	stream << number;
-	str = stream.str();
-	cout << str << endl;
-}
+	int num = 0,number_2 = number;
+	while (number >= 1 )
+	{
+		number /= 10;
+		num++;
+	}
+	if (num == 0)
+	{
+		str += '0';
+	}
+	int i = 0;
+	while (number > 0.000001)
+	{
+		number *= 10;
+		number_2 = number;
+		if (i == num)
+		{
+			str += '.';
+		}
+		str += (char)(number_2%10  + 48);
+		number -= number_2;
+		i++;
+	}
+	cout << "Число " << str << endl;
+} 
 void changeNumToString(int integer, int n)
 {
 	int i = 0;
@@ -165,10 +185,10 @@ void changeNumToString(int integer, int n)
 void maxAmount(int* array_num, int size)
 {
 	int max_amount = 0, amount, max;
-	for (int i = 0;i < size;i++)
+	for (int i = 0;i < size - 1;i++)
 	{
 		amount = 1;
-		for (int j = i + 1;j < size;j++)
+		for (int j = (i + 1);j < size;j++)
 		{
 			if (array_num[i] == array_num[j])
 			{
@@ -187,15 +207,21 @@ void maxAmount(int* array_num, int size)
 					break;
 				}
 			}
-
-
 		}
 	}
-	cout << "Число " << max << " встречается " << max_amount << " раз" << endl;
+	cout << "Число " << max << " встречается " << max_amount;
+	if (max_amount < 5 && max_amount > 1)
+	{
+		cout << " раза" << endl;
+	}
+	else
+	{
+		cout << " раз" << endl;
+	}
 }
 void maxAmount(string array_num, int size)
 {
-	int max_amount = 0, amount, max = 0;
+	int max_amount = 0, amount;char max;
 	for (int i = 0;i < size;i++)
 	{
 		amount = 1;
@@ -218,9 +244,15 @@ void maxAmount(string array_num, int size)
 					break;
 				}
 			}
-
-
 		}
 	}
-	cout << "Число " << char(max) << " встречается " << max_amount << " раз" << endl;
+	cout << "Элемент " << max << " встречается " << max_amount; 
+	if (max_amount < 5 && max_amount > 1)
+	{
+		cout << " раза" << endl;
+	}
+	else
+	{
+		cout << " раз" << endl;
+	}
 }
