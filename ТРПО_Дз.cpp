@@ -16,7 +16,7 @@ void exer_4(int str, int col);
 void exer_5(int str, int col);
 
 
-int comp1(const void* a, const void* b)
+int comp(const void* a, const void* b)
 {
 	return (*(int*)a - *(int*)b);
 }
@@ -240,7 +240,7 @@ void exer_4(int str, int col)
 		cout << mat[i] << "\t";
 	}
 	cout << endl;
-	qsort(mat, str, sizeof(int), comp1);
+	qsort(mat, str, sizeof(int), comp);
 	for (i = 0;i < str - 1;++i)
 	{
 		for (j = i +1; j < str; ++j)
@@ -317,7 +317,7 @@ void exer_5(int str, int col)
 			k++;
 		}
 	}
-	qsort(mat_5, col*str, sizeof(int), comp1);
+	qsort(mat_5, col*str, sizeof(int), comp);
 	k = 0;
 	for (i = 0;i < str;i++)
 	{
