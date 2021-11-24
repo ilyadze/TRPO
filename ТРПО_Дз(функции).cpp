@@ -9,11 +9,11 @@
 
 using namespace std;
 
-void changeNumToString(int integer);
-void changeNumToString(double number);
-void changeNumToString(int integer, int n);
-void maxAmount(int* array, int size);
-void maxAmount(string array_num, int size);
+string changeNumToString(int integer);
+string changeNumToString(double number);
+string changeNumToString(int integer, int n);
+int maxAmount(int* array, int size, int* max);
+int maxAmount(string array_num, int size, char* max);
 
 
 
@@ -35,7 +35,7 @@ int main()
 			cout << "Введите число ";
 			int num_int;
 			cin >> num_int;
-			changeNumToString(num_int);
+			cout << "Число " << changeNumToString(num_int) << endl;
 			break;
 		}
 		case '2':
@@ -43,7 +43,7 @@ int main()
 			cout << "Введите дробное число ";
 			double num_double;
 			cin >> num_double;
-			changeNumToString(num_double);
+			cout << "Число " << changeNumToString(num_double) << endl;
 			break;
 		}
 		case '3':
@@ -54,7 +54,7 @@ int main()
 			cout << "Введите количество выводимых элементов ";
 			int n;
 			cin >> n;
-			changeNumToString(num_int_2, n);
+			cout << changeNumToString(num_int_2, n) << endl;
 			break;
 		}
 		default:
@@ -104,22 +104,41 @@ int main()
 			cout << array_num[i] << "\t";
 		}
 		cout << endl;
-		maxAmount(array_num, size);
+		int* max, max_element;
+		max = &max_element;
+		cout << "Число " << *max << " встречается " << maxAmount(array_num, size, max);
+		if (maxAmount(array_num, size, max) < 5 && maxAmount(array_num, size, max) > 1)
+		{
+			cout << " раза" << endl;
+		}
+		else
+		{
+			cout << " раз" << endl;
+		}
 		cout << "Нажмите 1 для продолжения работы с этим заданием " << endl;
 	} while (_getch() == '1');
-	cout << "№3.Дополнительное задание "<< endl
+	cout << "№3.Дополнительное задание " << endl
 		<< "Введите массив символов" << endl;
 	cin.clear();
 	cin.ignore(32767, '\n');
 	string array_symbols;
+	char max_symbols, * max;
+	max = &max_symbols;
 	getline(cin, array_symbols);
-	maxAmount(array_symbols, array_symbols.length());
-	
+	cout << "Элемент " << *max << " встречается " << maxAmount(array_symbols, int(array_symbols.length()), max);
+	if (maxAmount(array_symbols, int(array_symbols.length()), max) < 5 && maxAmount(array_symbols, int(array_symbols.length()), max) > 1)
+	{
+		cout << " раза" << endl;
+	}
+	else
+	{
+		cout << " раз" << endl;
+	}
 }
 
 
 
-void changeNumToString(int integer)
+string changeNumToString(int integer)
 {
 	string str = "";
 	while (integer > 0)
@@ -128,37 +147,33 @@ void changeNumToString(int integer)
 		integer /= 10;
 	}
 	reverse(str.begin(), str.end());
-	cout << str << endl;
+	return str;
 }
-void changeNumToString(double number)
-{ 
+string changeNumToString(double number)
+{
 	string str;
-	int num = 0,number_2 = number;
-	while (number >= 1 )
-	{
-		number /= 10;
-		num++;
-	}
-	if (num == 0)
-	{
-		str += '0';
-	}
-	int i = 0;
-	while (number > 0.000001)
+	double  whole_part;
+	double b;
+	double number_2 = number;
+	modf(number, &b);
+	number_2 -= b;
+	str += changeNumToString(int(b));
+	int length = 0;
+	while (modf(number, &whole_part) != 0)
 	{
 		number *= 10;
-		number_2 = number;
-		if (i == num)
-		{
-			str += '.';
-		}
-		str += (char)(number_2%10  + 48);
-		number -= number_2;
-		i++;
+		length++;
 	}
-	cout << "Число " << str << endl;
-} 
-void changeNumToString(int integer, int n)
+	str += '.';
+	for (int i = 0;i < length;i++)
+	{
+		number_2 *= 10;
+		str += char(int(number_2) % 10 + 48);
+		number_2 -= int(number_2);
+	}
+	return str;
+}
+string changeNumToString(int integer, int n)
 {
 	int i = 0;
 	string str = "";
@@ -168,7 +183,7 @@ void changeNumToString(int integer, int n)
 		length /= 10;
 		i++;
 	}
-	while (integer > 0 )
+	while (integer > 0)
 	{
 		if (i <= n)
 		{
@@ -178,54 +193,47 @@ void changeNumToString(int integer, int n)
 		i--;
 	}
 	reverse(str.begin(), str.end());
-	cout << str << endl;
+	return str;
 }
 
 
-void maxAmount(int* array_num, int size)
+int maxAmount(int* array_num, int size, int* max)
 {
-	int max_amount = 0, amount, max;
-	for (int i = 0;i < size - 1;i++)
-	{
-		amount = 1;
-		for (int j = (i + 1);j < size;j++)
-		{
-			if (array_num[i] == array_num[j])
-			{
-				amount++;
-				i++;
-			}
-			else
-			{
-				if (max_amount < amount)
-				{
-					max_amount = amount;
-					max = array_num[i];
-				}
-				else
-				{
-					break;
-				}
-			}
-		}
-	}
-	cout << "Число " << max << " встречается " << max_amount;
-	if (max_amount < 5 && max_amount > 1)
-	{
-		cout << " раза" << endl;
-	}
-	else
-	{
-		cout << " раз" << endl;
-	}
-}
-void maxAmount(string array_num, int size)
-{
-	int max_amount = 0, amount;char max;
+	*max = array_num[0];
+	int max_amount = 0, amount;
 	for (int i = 0;i < size;i++)
 	{
 		amount = 1;
-		for (int j = i + 1;j < size;j++)
+		for (int j = (i + 1);j < size + 1;j++)
+		{
+			if (array_num[i] == array_num[j])
+			{
+				amount++;
+				i++;
+			}
+			else
+			{
+				if (max_amount <= amount)
+				{
+					max_amount = amount;
+					*max = array_num[i];
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+	}
+	return max_amount;
+}
+int maxAmount(string array_num, int size, char* max)
+{
+	int max_amount = 0, amount;
+	for (int i = 0;i < size;i++)
+	{
+		amount = 1;
+		for (int j = i + 1;j < size + 1;j++)
 		{
 			if (array_num[i] == array_num[j])
 			{
@@ -237,7 +245,7 @@ void maxAmount(string array_num, int size)
 				if (max_amount < amount)
 				{
 					max_amount = amount;
-					max = array_num[i];
+					*max = array_num[i];
 				}
 				else
 				{
@@ -246,13 +254,5 @@ void maxAmount(string array_num, int size)
 			}
 		}
 	}
-	cout << "Элемент " << max << " встречается " << max_amount; 
-	if (max_amount < 5 && max_amount > 1)
-	{
-		cout << " раза" << endl;
-	}
-	else
-	{
-		cout << " раз" << endl;
-	}
+	return max_amount;
 }
