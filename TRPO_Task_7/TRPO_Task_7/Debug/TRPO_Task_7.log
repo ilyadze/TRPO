@@ -1,4 +1,4 @@
 ﻿  TRPO_Task_7.cpp
-E:\Repository\TRPO\TRPO_Task_7\TRPO_Task_7\TRPO_Task_7.cpp(207,23): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
-E:\Repository\TRPO\TRPO_Task_7\TRPO_Task_7\TRPO_Task_7.cpp(219,10): warning C4804: %: небезопасное использование типа "bool" в операции
+E:\Repository\TRPO\TRPO_Task_7\TRPO_Task_7\TRPO_Task_7.cpp(206,23): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
+E:\Repository\TRPO\TRPO_Task_7\TRPO_Task_7\TRPO_Task_7.cpp(218,10): warning C4804: %: небезопасное использование типа "bool" в операции
   TRPO_Task_7.vcxproj -> E:\Repository\TRPO\TRPO_Task_7\Debug\TRPO_Task_7.exe
